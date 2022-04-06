@@ -1,0 +1,761 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>10. Stores and State Management</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="39b1e929-d5b3-4570-9201-49cffca2794f" class="page sans"><header><h1 class="page-title">10. Stores and State Management</h1></header><div class="page-body"><p id="e31894c0-e810-4828-94c6-2ff651efdad6" class="">
+</p><h2 id="be01da91-6752-4ada-95f5-65c7c593e9f5" class="">Stores</h2><p id="44042558-089f-4641-8d85-439a1b8391ac" class="">Stores are used to maintain shared state in a way which ensures predictability and reduces side-effects.
+Each store consists of an immutable state object and a set of mutations which update the state. The state
+object itself is immutable, however can be updated by creating a copy of itself. This procedure is handled in
+<code>createStore</code>.</p><hr id="3379e26e-134a-44e1-a122-2044e2c70a4b"/><h3 id="6c040116-db88-497c-80ff-aed1f10d1441" class="">Assessment Store</h3><p id="99bafe20-7499-475b-9c75-b7b3caddf9da" class="">This store provides a deterministic interface for communicating with the backend
+medical diagnosis model. It uses <a href="https://www.notion.so/assets/modules/IndigoClient.js">IndigoClient</a>, which implements the underlying API.</p><h3 id="682890d2-519a-4703-ba89-06bd93e9dfb3" class="">Imports</h3><pre id="8bff8f0b-c573-4d3c-815b-a12b23620819" class="code code-wrap"><code>import { createStore } from &#x27;../framework/framework.js&#x27;
+import settings from &#x27;../settings.js&#x27;
+import IndigoClient from &#x27;../assets/modules/IndigoClient.js&#x27;
+</code></pre><h3 id="29fea911-b992-463b-80a1-9b67fcec4b49" class="">Setup</h3><p id="fa3a62ad-be6c-45f3-a773-712c47082508" class="">Create a new store object:</p><pre id="dec98bf5-f4f0-4887-87ae-d06453e231ba" class="code code-wrap"><code>const AssessmentStore = {
+    state: {},
+    mutations: {},
+    actions: {}
+}
+</code></pre><p id="52b8d94b-d48a-4cb5-bcbc-aad45bad4523" class="">We also need to create a new API client instance:</p><pre id="982471fc-83ae-43b5-ad91-b6a7aa3c4eed" class="code code-wrap"><code>const client = new IndigoClient(settings.tokens.indigoAPIEndpoint)
+</code></pre><h3 id="b9d0740a-90cf-4fdc-bdf6-abeabb3033ba" class="">State</h3><p id="75569397-c589-4248-9eca-2d8237f15dfa" class="">Initially, all fields are set to null, since this store is not used until
+starting an assessment.</p><pre id="4fdceba9-b96c-487f-85f2-ddb5c9abd8f2" class="code code-wrap"><code>AssessmentStore.state.medicalConditionDistribution = null
+AssessmentStore.state.setMedicalConditionNames = null
+AssessmentStore.state.modalMedicalCondition = null
+</code></pre><h3 id="02825794-41f0-4104-97a0-45ef93635e3e" class="">Mutations</h3><p id="e9728e38-9579-44d9-ab76-316f05464ad7" class="">Update the posterior distribution:</p><pre id="66ffcf1d-4f0d-4f67-8fa4-dcc169e9855a" class="code code-wrap"><code>AssessmentStore.mutations.setMedicalConditionDistribution = function(state, distribution) {
+    state.medicalConditionDistribution = distribution
+}
+</code></pre><p id="4621faa6-84ca-4cd8-a9a7-ae30482fdc63" class="">Update the list of possible condition names. This should be called only once
+when starting the assessment.</p><pre id="94b9b206-434f-4cdc-b9de-c16242cdb723" class="code code-wrap"><code>AssessmentStore.mutations.setMedicalConditionNames = function(state, medicalConditionNames) {
+    state.medicalConditionNames = medicalConditionNames
+}
+</code></pre><p id="bddb9cf3-6a51-4745-82c4-74ff8ccaa000" class="">Update the most likely (modal) medical condition, as given by the backend model.</p><pre id="801ec453-97c6-489a-a4b8-0c0f190fb68b" class="code code-wrap"><code>AssessmentStore.mutations.setModalMedicalCondition = function(state, modalMedicalCondition) {
+    state.modalMedicalCondition = modalMedicalCondition
+
+    console.log(state)
+}
+</code></pre><h3 id="913d38b8-4622-4b3a-a15b-b72e61449f89" class="">Actions</h3><p id="8492b1b2-1c98-46fb-af79-9ca33d8534b0" class="">Since the API is asynchronous, we need to define several actions for this store.</p><p id="6362adf5-b2f2-4d1d-8a23-1f4cc6d53e47" class="">This first action, initialises the medical condition distribution. It commits
+<code>setMedicalConditionNames</code> and <code>setMedicalConditionDistribution</code>.</p><pre id="b24e6999-07b3-42ee-9e9b-6e3a7a12bbd9" class="code code-wrap"><code>// set the initial medical condition distribution.
+
+AssessmentStore.actions.initMedicalConditionDistribution = function(context) {
+
+    client
+        .getPrior()
+        .then(({ medicalConditionNames, medicalConditionPrior }) =&gt; {
+
+            context.commit(&#x27;setMedicalConditionDistribution&#x27;, medicalConditionPrior)
+            context.commit(&#x27;setMedicalConditionNames&#x27;, medicalConditionNames)
+        })
+}
+</code></pre><p id="25589b32-c1de-4b00-82e9-c31829d68c69" class="">Next, we define an action to <em>update</em> the posterior distribution once a new one
+is received from the model.</p><pre id="7ce965b6-f571-47c2-8a8b-26e079289f69" class="code code-wrap"><code>// change the medial condition distribution based on symptoms stated by
+// patient.
+
+AssessmentStore.actions.updateMedicalConditionDistribution = function(context, symptomsMap) {
+
+    const priorDistribution = context.state.medicalConditionDistribution
+
+    client
+        .postPosterior(priorDistribution, symptomsMap)
+        .then(({ posteriorDistribution, posteriorMode }) =&gt; {
+
+            context.commit(&#x27;setMedicalConditionDistribution&#x27;, posteriorDistribution)
+            context.commit(&#x27;setModalMedicalCondition&#x27;, posteriorMode)
+        })
+}
+</code></pre><h3 id="d72726ee-a7a1-4961-95d0-555ca71fdc2e" class="">Exports</h3><pre id="575ce1f7-689d-45d6-93d3-14d5d7386cbd" class="code code-wrap"><code>export default createStore(AssessmentStore)
+</code></pre><p id="c1d1e1c6-2427-40dc-a165-72e652c945e1" class="">
+</p><hr id="0e7616fc-3e6d-4a0a-a0eb-99323032df9e"/><p id="a618f315-3f2b-411f-9c83-7c552e43f649" class="">
+</p><h2 id="bf67d5df-bb77-4f2f-89cc-c70eda5a2b4c" class="">Preferences Store</h2><p id="a5551827-22ba-4818-ba69-8ac3d2054305" class="">This store is used to hold user preferences. Currently, this just includes the
+app&#x27;s theme (light or dark).</p><h3 id="bbd251d0-601f-46e8-b221-7797b10908d5" class="">Imports</h3><pre id="ad82c3fd-a1d3-416b-aee0-ed9a49cfe751" class="code code-wrap"><code>import { createStore } from &#x27;../framework/framework.js&#x27;
+import settings from &#x27;../settings.js&#x27;
+</code></pre><h3 id="1cda3592-bc70-4d14-872f-5d138425bca4" class="">Setup</h3><p id="a9d5e50c-1b81-4e84-80d3-2127421f40a4" class="">Create a new store object:</p><pre id="0058c823-3883-49d1-a91d-4e13a535c940" class="code code-wrap"><code>const PreferencesStore = {
+    state: {},
+    mutations: {}
+}
+</code></pre><h3 id="46d1c37b-bee7-42a5-9d71-4b173aa24400" class="">State</h3><p id="757138af-5a6b-437f-be02-a683df24447a" class="">Initially, the theme is set to whatever the default is in <code>settings.js</code>.</p><pre id="55593dde-714e-4e2d-9f11-1770d7c1be0b" class="code code-wrap"><code>PreferencesStore.state.theme = settings.theme.default
+</code></pre><h3 id="fe7da114-808f-4ea3-a2e7-90ff1d363362" class="">Mutations</h3><p id="72051cd5-4acf-4e89-a17a-6eb1f3afb677" class="">The only mutation is toggling/switching the current theme. The function below is
+used to toggle on the theme name using JavaScript&#x27;s turnary operator.</p><pre id="daacb2e8-1f29-435c-8c0c-8d80db06fd2c" class="code code-wrap"><code>function switchThemeName(currentThemeName) {
+    return currentThemeName === &#x27;light&#x27; ? &#x27;dark&#x27; : &#x27;light&#x27;
+}
+</code></pre><p id="9ec26e50-eaf8-4593-9a7f-61d452c981ca" class="">Now we just call this function whenever the <code>switchTheme</code> mutation is commited:</p><pre id="ed2dac71-c440-4053-b900-cc5c015f395b" class="code code-wrap"><code>PreferencesStore.mutations.switchTheme = function(state) {
+    state.theme = switchThemeName(state.theme)
+}
+</code></pre><h3 id="86302e0e-d84a-41f5-b440-14d2aaecc64b" class="">Persistence</h3><p id="738199c7-d6f3-4329-8c0f-43f79d70a541" class="">We want the user&#x27;s theme choice to persist across browsing sessions.</p><h3 id="cefcccf5-2c81-429c-95bf-8b038440a995" class="">Exports</h3><p id="a82fa90d-b3b6-44dd-bd61-af384a2b6f50" class="">Export the compiled store object.</p><pre id="ec70d6bf-6a3d-4a11-b3c8-0e681a3ac506" class="code code-wrap"><code>export default createStore.persist(&#x27;preferences&#x27;, PreferencesStore)
+</code></pre><p id="78c313d2-127c-44ca-bcc0-a8703def6471" class="">
+</p><hr id="a1f50ac8-4a1b-4cff-99a7-21194aef47e1"/><p id="4b053a03-ebf3-480d-9a4c-39d2da9fd660" class="">
+</p><h3 id="946071c4-fa5f-489a-8869-c9740a21fe86" class="">User Store</h3><p id="cf1a2205-a285-4ce6-9765-1dda81cb9208" class="">This store holds metadata about the user, namely whether they&#x27;ve used the app
+before. This data is stored persistently on their local device.</p><h3 id="e23c87fb-6507-4c76-8e48-d90ee52133a4" class="">Imports</h3><pre id="edcf6411-4b13-4b92-aadc-9ceea0d4d6d3" class="code code-wrap"><code>import { createStore } from &#x27;../framework/framework.js&#x27;
+</code></pre><h3 id="90da6c10-3e1e-47ff-b1ae-98a4aaebca2d" class="">Setup</h3><pre id="da63c6a4-be47-42d9-b901-8c7550d60b74" class="code code-wrap"><code>const UserStore = {
+    state: {},
+    mutations: {}
+}
+</code></pre><h3 id="76652e04-3ad6-4851-b82c-0e41da66b54b" class="">State</h3><p id="57658579-fcb4-4004-8d71-aaeb8b501cb8" class="">Initially, the user&#x27;s <code>isFirstVisit</code> state is set to <code>true</code>. This later changed
+to <code>false</code> after they&#x27;ve viewed the <a href="https://www.notion.so/routes/Welcome.component.md">welcome slides</a>.</p><pre id="279ecd74-d0bc-4e97-b81e-57b8bdb3baa8" class="code code-wrap"><code>UserStore.state.isFirstUse = true
+</code></pre><h3 id="bcc2887f-f60f-497a-9953-ef69c6e33d3d" class="">Mutations</h3><p id="91758bb7-c599-49c2-91c1-2af883d0873c" class="">The only mutation needed is a settter for <code>isFirstUse</code>. Note that <code>!!value</code>
+ensures the updated state is a Boolean.</p><pre id="d5a6e24c-350a-4011-a04d-4fff2ade2202" class="code code-wrap"><code>UserStore.mutations.negateFirstUse = function(state) {
+    state.isFirstUse = false
+}
+</code></pre><h3 id="f97a42bf-a215-49b8-9604-b35d17da0e5a" class="">Persistence</h3><p id="8a622186-aad8-4cb2-883f-c678a0a9c652" class="">By definition, <code>isFirstUse</code> needs to persist accross browsing sessions.</p><h3 id="68b6f45f-4b01-4669-8d1a-394da060880f" class="">Exports</h3><pre id="f8b8b4e7-92f3-4583-a854-762baafab709" class="code code-wrap"><code>export default createStore.persist(&#x27;user&#x27;, UserStore)</code></pre></div></article></body></html>

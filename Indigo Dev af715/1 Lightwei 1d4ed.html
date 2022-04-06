@@ -1,0 +1,775 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>1. Lightweight and progressive apps</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="1d4eda50-b5fc-4a79-848e-e4fc73082d06" class="page sans"><header><h1 class="page-title">1. Lightweight and progressive apps</h1></header><div class="page-body"><p id="86e7df37-d079-42ea-bce1-0c46fa313079" class="">
+</p><h2 id="1f2756aa-e668-4f33-acd3-c220230a093e" class="">Introduction</h2><p id="9205174a-da0f-4093-841f-b785a24afb78" class="">
+</p><p id="282a50a1-f922-495a-bc0c-263be6d065f6" class="">One challenge of building modern <em>web</em> applications is the minimal native support for reactivity. Unlike statically generated websites, web apps are in a constant state of flux, required to update views on the fly as state changes. While the recent introduction of <em>Web Components</em> has helped remedy the lack of native support, it’s still difficult to achieve the fluent reactivity typical of frameworks like React and Vue. It has now therefore become <em>de facto</em> to use such frameworks when building professional projects — and they work brilliantly. However, there are several downsides to using them:</p><p id="eea733d0-ede6-4e66-b885-e4f819309984" class="">
+</p><ul id="bb2c8f2a-8f1e-4e73-a4c3-61bbe2bf5d56" class="bulleted-list"><li style="list-style-type:disc">Overhead — your users’ browsers have to download, parse and execute large JavaScript resources which implement the framework, in addition to your app’s code. This can lead to noticeable overhead if care is not taken to optimize. There’s also additional development overhead when using frameworks: in the case of React and Vue, your app can end up with well over 500 dependencies. These slow down installation and compilation times. </li></ul><ul id="c432dec9-85cd-4e37-ae4b-b0466e38ea8c" class="bulleted-list"><li style="list-style-type:disc">Security — it’s often the case a dozen or so vulnerabilities are introduced into your app inadvertently by dependencies. While many are often unexploitable, making the assumption that <em>all</em> are isn’t a good security practice. Note that in general frameworks <em>themselves </em>do provide good protection against common vulnerabilities like XSS. </li></ul><ul id="9ed0d358-0243-4c0d-927b-6916052bd783" class="bulleted-list"><li style="list-style-type:disc">Dependence — the degree to which your app is up to date with current standards is effected by the maintenance of the framework and dependencies.</li></ul><p id="1896268f-8f9e-40b0-870b-e780948f1a6a" class="">
+</p><p id="777f4923-b96f-484c-ae40-4bef12407001" class="">The first problem is most significant. For lower power devices and users with slow internet connections, a web app’s resource size can become significant. Consider for example, the Lighthouse report for <a href="https://medium.com">https://medium.com</a> (popular blogging platform):</p><p id="d1c49f43-d0a4-4a6d-bb1d-5ca9567a9cc1" class="">
+</p><figure id="2a4cd20c-2ce9-46ba-bb5d-734fb8eac4fc" class="image"><a href="1%20Lightwei%201d4ed/Untitled.png"><img style="width:540px" src="1%20Lightwei%201d4ed/Untitled.png"/></a></figure><figure id="ead67083-09b3-4b1f-8a78-760b95718cd9" class="image"><a href="1%20Lightwei%201d4ed/Untitled%201.png"><img style="width:742px" src="1%20Lightwei%201d4ed/Untitled%201.png"/></a></figure><p id="a8f52871-67f1-4387-b4b3-f168253ac3df" class="">
+</p><p id="a6a5bb7b-5ca0-4c72-9210-1e213637f470" class="">This low performance score is typical of many modern websites. While frameworks don’t always lead to bad scores, it’s far easier to introduce overhead when using a framework. </p><p id="72d2580f-d859-4a12-b363-3ee08f4e770a" class="">
+</p><p id="a3b9b2d6-3843-44af-bcad-4185a71d1cf0" class="">As developers, we want our app to be accessible any user, even if their internet connection is very limited. Hence we outline the following requirements:</p><p id="5c3ce320-7df2-4bb7-a7f1-8cca782934f3" class="">
+</p><ul id="0334bae4-e44d-42b0-b3ae-d03fd633a504" class="bulleted-list"><li style="list-style-type:disc">Implementation of PWA — e.g. caching resources</li></ul><ul id="9863a98f-feb6-43d6-bed0-5f558f9befea" class="bulleted-list"><li style="list-style-type:disc">No server whatsoever — all of the application’s logic will be implemented client side. Our app is relatively simple and doesn’t require a large amount of business logic. This approach will mean internet connectivity is only a factor when initially downloading the app.  </li></ul><ul id="f1af6fcb-d709-4346-8288-d985f722f484" class="bulleted-list"><li style="list-style-type:disc">No frameworks</li></ul><ul id="a9dcc620-aeb7-41a3-90e8-cce50b893e85" class="bulleted-list"><li style="list-style-type:disc">No analytics or third-party scripts</li></ul><ul id="0c46d464-512f-46ca-93ae-1583cc3b8ac6" class="bulleted-list"><li style="list-style-type:disc">Minimal UI — to reduce nested function calls and excessively deep DOM trees</li></ul><ul id="7121aabb-6ee8-421e-9f41-32f99ef99e05" class="bulleted-list"><li style="list-style-type:disc">Compression of all resources</li></ul><p id="fcec0386-aa30-475b-81a5-536c0d534caf" class="">
+</p><h2 id="1761e29e-5fa0-4bb0-b69d-a62bbb3375a4" class="">Achieving Reactivity Without React</h2><p id="dec5f5de-44ee-4c60-aa0a-c7fd9c50edbe" class="">
+</p><p id="2d3b7e02-d892-4361-91ea-525d17075740" class="">Our requirement to forgo using a framework left us in a slightly difficult position. We needed to somehow achieve modern features like encapsulation, modular components and data-binding, using only vanilla JavaScript. There were three sources of inspiration which lead us towards a solution.</p><p id="af97236b-92dd-4459-8b74-2ac064f26f62" class="">
+</p><h3 id="7eede907-f01e-4803-a612-68d2a8ce18eb" class="">1. Telegram K</h3><p id="42b8e011-abbd-4ea8-b694-73a3d554b87a" class="">
+</p><p id="0bfa3c51-f0ab-4ab5-a2ad-b88a2e15cd14" class="">The popular messaging app <em>Telegram </em>was originally released as a for mobile devices. Later they launched a web client. This web client was subsequently replaced by two competing modernised clients — one built with a reimplementation of React, and another in frameworkless JavaScript. The result of the competition was two highly reactive, performant web apps.</p><p id="fa374eb4-f57a-4bad-9c6c-586df542714a" class="">
+</p><p id="77d2e8b2-1b7e-457b-94b8-62e21f0e8180" class="">Of course, the frameworkless implementation (Telegram Web K) peaked our interest. Their approach was to implement components as functions that return HTML nodes. Each component defined necessary event listeners and logic, intermixed with explicitly constructing the component’s DOM. The main success of this approach was the easy composition of components. However, the approach wasn’t declarative, contributing to less readable code. They could’ve also achieved better separation of view and model code by using Web Components. Nonetheless, the project was an impressive demonstration of how native JavaScript <em>can</em> be used to build modern apps, with a small penalty on code quality.</p><p id="2e057eac-7e65-421c-b2c3-0763d11bb3f1" class="">
+</p><figure id="ac0f2a03-28d3-4b77-ab7d-5e5a1b201b0c" class="image"><a href="1%20Lightwei%201d4ed/Untitled%202.png"><img style="width:682px" src="1%20Lightwei%201d4ed/Untitled%202.png"/></a></figure><p id="afe88547-1f9c-4768-a21d-f034db599a39" class="">
+</p><h3 id="a01d3e07-849f-46be-be0d-be068b919123" class="">2. Flutter</h3><p id="f6b055ad-04dd-4918-b897-c3dd1bf3fe8e" class="">
+</p><p id="7724beb0-be43-4c9f-97d5-b60890c5addf" class="">A second, larger source of inspiration for us was Google’s multiplatform framework, <em>Flutter</em>. Flutter can compile an app written in Dart to native IOS, Android and JavaScript code. What we found inspirational, was their approach to building layouts declaratively. Here’s an example of a Flutter widget:</p><p id="85454c99-503c-46c5-b9ae-27d42659adc3" class="">
+</p><figure id="c376a47b-0fb5-4f71-b674-efe89816c749" class="image"><a href="1%20Lightwei%201d4ed/Untitled%203.png"><img style="width:637px" src="1%20Lightwei%201d4ed/Untitled%203.png"/></a></figure><p id="45f4df08-5a6b-4bf2-8fb4-49e6b2789ba7" class="">
+</p><p id="7bf44856-5594-4c47-92b7-13e840ea524f" class="">Flutter widgets use the innate composability of functions to describe layouts declaratively. We realised the same idea could be easily translated to JavaScript. However, we were still lacking a solution to the reactivity problem. Consider the following react component:</p><p id="85f2b40a-c2c0-4d5d-8329-1273ddad9d11" class="">
+</p><figure id="b9629ea9-a442-4f73-8ed4-98e1688038b3" class="image"><a href="1%20Lightwei%201d4ed/Untitled%204.png"><img style="width:1400px" src="1%20Lightwei%201d4ed/Untitled%204.png"/></a></figure><p id="a93f9078-1378-4eaf-a130-6daa38a4c3a9" class="">
+</p><p id="ea31427d-3a90-45b9-bf32-4d183ce79d9f" class="">In this component, any changes to <code>state.clicks</code> will cause the button to re-render. Now, we could quite easily mimic this behaviour with Web Components by simply re-rendering whenever state is changed. The problem is that re-rendering <em>the whole</em> DOM for a component is inefficient and sometimes just plain wrong. Two examples:</p><p id="e7d5b48a-32ef-4813-8308-9afe79878aae" class="">
+</p><ul id="87eacbcb-ee2a-4f46-b459-99ff23d55820" class="bulleted-list"><li style="list-style-type:disc">A component that displays chat room messages and needs to update whenever a new message arrives. Re-rendering the entire component would be incredibly inefficient.</li></ul><ul id="de6002dc-8a38-43cb-b33f-60997b0f8d82" class="bulleted-list"><li style="list-style-type:disc">An input box that changes the state of its parent component. Re-rendering would cause the focus-state of the input box to be reset — i.e. every time you type a letter, your browser would unselect the input box.</li></ul><p id="c6fc1546-920a-4bea-a46d-18d4e1ae72d0" class="">
+</p><p id="6a96e883-dab9-46a4-9b3d-a6e9d431c47f" class="">So when using Web Components, it’s typically necessary to use imperative even listeners — not what we’re aiming for. Our solution is presented in the next section.</p><p id="3d21e24c-7939-4375-aadb-74451e79335b" class="">
+</p><h3 id="25ff3829-ba11-4d99-adcc-d89a3941a6be" class="">3. Observables</h3><p id="7a4c3d3f-a650-4e8e-a97e-1c48dbb75da6" class="">
+</p><p id="5d5a97f3-cc06-4eb3-baa8-5df7f5744554" class="">The solution we discovered, was to combine Flutter’s layout method with an OOP design pattern called <em>Observer</em>. In this pattern we have one <em>event source </em>that pushes events (i.e. data) to several observers. While a simple idea, it allows us to implement two-way data-binding.</p><p id="904d9bf9-2a46-4b29-b7db-d664c6c58963" class="">
+</p><p id="a8191c09-b8e3-406b-b742-a2c520f2490f" class="">Observer is usually implemented like so:</p><p id="7cf8ce89-56ca-4a3e-9dde-50f2ffb96a04" class="">
+</p><pre id="dd9902d8-b2ba-4a29-9272-01bfe86d54f2" class="code"><code>class Observable {
+
+		constructor() {
+				this.observers = []
+		}
+
+		notify(event) {
+				this.observers.forEach(observer =&gt; observer.observe(event))
+		}
+
+		subscribe(observer) {
+				this.observers.push(observer)
+		}
+}</code></pre><p id="068bb0d0-c259-4418-bdd1-7d74f5c2b813" class="">
+</p><pre id="f85b11c7-6a51-4e14-b3c0-6ff1b3b89f4a" class="code"><code>class Observer {
+		constructor(observe) {
+				this.observe = observe
+		}
+}</code></pre><p id="74a8d6a9-f585-437c-86a5-e1e508bd2e8a" class="">
+</p><p id="cda7dc35-5fe5-471e-bfc1-573595e11b00" class="">Let’s test it out!</p><p id="722088b4-8e21-4f54-8b9f-a347794b2880" class="">
+</p><pre id="9f056fd0-e17d-4c3d-b2ae-0590e8ca04d1" class="code"><code>const name = new Observable()
+const upper = new Observer(text =&gt; console.log(text.toUpperCase()))
+const lower = new Observer(text =&gt; console.log(text.toLowerCase()))
+
+
+name.subscribe(upper)
+name.subscribe(lower)
+
+name.notify(&#x27;hello&#x27;) 
+
+// &quot;HELLO&quot;
+// &quot;hello&quot;
+
+name.notify(&#x27;wOrLd&#x27;)
+
+// &quot;WORLD&quot;
+// &quot;world&quot;</code></pre><p id="c75b1f00-1b39-4edf-aca9-378cd971d433" class="">
+</p><p id="ebe312e0-10c2-4a31-be4e-2637d11bd422" class="">To apply this concept to data-binding, we create a specialised observable type — a so called “observable variable.” This is an observable which maintains a value, and whenever its value changes, it notifies all observers/subscribers.</p><p id="2d635d5c-5906-42a5-b73b-3ae49623d955" class="">
+</p><p id="a53f1c0a-889a-4eef-8f26-eefed64a6eec" class="">The final insight was then to make components take in observable variables <em>rather than </em>static JavaScript values. For example, to implement a simple text component, we could do the following:</p><p id="81891ce4-2730-49b2-a7ae-9412d2523733" class="">
+</p><pre id="d397c0a5-07d0-4955-926d-2760f8e15498" class="code"><code>function Text(text) {
+
+		const node = document.createElement(&#x27;span&#x27;)
+		text.on(text =&gt; node.innerText = text)
+
+		return node
+}</code></pre><p id="468e9014-8885-404d-9fe5-00fe057d747d" class="">
+</p><pre id="420fb0f7-8b81-4d83-884a-3186190baab4" class="code"><code>const name = variable(&#x27;Alice&#x27;)
+const text = Text(name)
+
+// &lt;span&gt;Alice&lt;/span&gt;
+
+// update 
+
+name(&#x27;Sam&#x27;)
+
+console.log(text)
+
+// &lt;span&gt;Sam&lt;/span&gt;</code></pre><p id="039d1303-ccba-4659-9346-177bfb26e082" class="">
+</p><p id="ebe69d75-fbd0-46d1-aa3e-4e9e5df878d1" class="">After this finding, we created a tiny 165 byte library to implement observable variables. From here we could build fully reactive <em>and declarative </em>views. In our app, a widget is defined as a function which takes a number of observable variables, and returns a HTML node object. </p><p id="cd8a3a85-1d8e-4104-bf9b-453f0753120c" class="">
+</p><h2 id="9c653719-f238-4fce-a34a-14c76faf377b" class="">Recap</h2><p id="34ace4ea-452f-4a7a-b95c-3768293ccc7a" class="">
+</p><p id="fdbd0f17-7387-47fb-ab73-5f942ca612f4" class="">We have a simple declarative way to achieve modularity, encapsulation and reactivity, all without a single framework or library. Here’s an example of a reactive widget using our technique:</p><p id="1a7922c0-fd52-4a26-9f08-d41a2044cba6" class="">
+</p><pre id="e73b0ef5-ad7a-4f07-8dda-913387505859" class="code"><code>function App() {
+		const name = use(&#x27;Alice&#x27;)
+		
+		return div(
+				div(f`hello my name is ${name}, nice to meet you.`),
+				input(name)
+		)
+}</code></pre><p id="998cae78-bd72-4c9c-a95d-bbbc99fb7de7" class="">
+</p><p id="b775027b-2954-49b1-8736-7277a6240119" class="">Compare with the equivalent React component:</p><p id="350897d5-e2e1-47e0-b74f-2eeac8e65822" class="">
+</p><pre id="e21bd4af-26c5-4009-a555-16edec7a7233" class="code"><code>function App() {
+		const [name, setName] = useState(&#x27;Alice&#x27;)
+
+		return (
+				&lt;div&gt;
+						&lt;div&gt;hello my name is {name}, nice to meet you.&lt;/div&gt;
+						&lt;input oninput={value =&gt; setName(value)}&gt;
+				&lt;/div&gt;
+		)
+}</code></pre><p id="af678b74-45b5-4a00-a1b7-f60a3989b428" class="">
+</p></div></article></body></html>
